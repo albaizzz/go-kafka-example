@@ -1,6 +1,6 @@
 NAME=go-kafka-example
 VERSION=0.0.1
-
+AUTHOR=vsouza
 
 .PHONY: run-producer
 ## run-producer: Run consumer
@@ -12,10 +12,10 @@ run-producer:
 run-consumer:
 	@go run cmd/consumer/main.go
 
-.PHONY: deps-save
+.PHONY: deps-install
 ## deps-install: Install packages and dependencies
 deps-install:
-	@glide install
+	@go mod download
 
 .PHONY: help
 all: help
