@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	kingpin "gopkg.in/alecthomas/kingpin.v2"
 
@@ -10,7 +11,7 @@ import (
 
 var (
 	brokerList = kingpin.Flag("brokerList", "List of brokers to connect").Default("localhost:9092").Strings()
-	topic      = kingpin.Flag("topic", "Topic name").Default("important").String()
+	topic      = kingpin.Flag("topic", "Topic name").Default("test").String()
 	maxRetry   = kingpin.Flag("maxRetry", "Retry limit").Default("5").Int()
 )
 
@@ -29,9 +30,10 @@ func main() {
 			panic(err)
 		}
 	}()
+	msgStr := fmt.Sprintf("Something Cool %s", time.Now().String())
 	msg := &sarama.ProducerMessage{
 		Topic: *topic,
-		Value: sarama.StringEncoder("Something Cool"),
+		Value: sarama.StringEncoder(msgStr),
 	}
 	partition, offset, err := producer.SendMessage(msg)
 	if err != nil {
